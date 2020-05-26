@@ -11,6 +11,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* transfer image between fragments*/
+    public static final int PERMISSION_PICK_IMAGE = 1000;
+    public static final int PERMISSION_INSERT_IMAGE = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        /* set default fragment on activity create*/
         getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, new BrushFragment()).commit();
     }
 
+    /* change fragment by setting navigation item select listener*/
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
