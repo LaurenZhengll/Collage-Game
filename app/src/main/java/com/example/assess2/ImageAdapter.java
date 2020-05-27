@@ -14,8 +14,8 @@ public class ImageAdapter extends BaseAdapter {
 
     };
 
-    public ImageAdapter(Context context) {
-        this.context = context;
+    public ImageAdapter() {
+
     }
 
     @Override
