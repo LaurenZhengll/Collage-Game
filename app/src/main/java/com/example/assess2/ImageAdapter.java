@@ -9,13 +9,12 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context context;
+
     public int[] imageArray = {
-            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar
+            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar};
 
-    };
-
-    public ImageAdapter() {
-
+    public ImageAdapter(Context context) {
+        this.context= context;
     }
 
     @Override
@@ -37,8 +36,8 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(imageArray[position]);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageView.setLayoutParams(new GridLayout.LayoutParams());  //width:250, height: 250
+        imageView.setScaleType(ImageView.ScaleType.FIT_START);
+        imageView.setLayoutParams(new GridLayout.LayoutParams());  //width=250, height=250
         return imageView;
     }
 }

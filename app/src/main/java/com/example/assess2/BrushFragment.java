@@ -7,7 +7,22 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class BrushFragment extends Fragment {
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+public class BrushFragment extends BottomSheetDialogFragment {
+    static BrushFragment instance;
+
+    public static BrushFragment getInstance(){
+        if(instance == null){
+            instance = new BrushFragment();
+        }
+        return instance;
+    }
+
+    public BrushFragment(){
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment

@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 public class TextFragment extends Fragment {
+
+    public TextFragment(){
+
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment

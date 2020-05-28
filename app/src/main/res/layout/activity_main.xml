@@ -12,23 +12,95 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@id/frag_container"
+        app:layout_constraintBottom_toTopOf="@id/btnImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background1" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnImage"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:onClick="onClickImageBtn"
+        app:cardBackgroundColor="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnBrush"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:src="@drawable/ic_photo_library_white_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:text="Images"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnBrush"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:onClick="onClickBrushBtn"
+        android:padding="16dp"
+        app:cardBackgroundColor="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnImage"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:src="@drawable/ic_brush_white_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:text="Brush"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </androidx.cardview.widget.CardView>
+
     <FrameLayout
         android:id="@+id/frag_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="50dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toTopOf="@id/btnImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frag_container" />
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <ImageView
+        android:id="@+id/sticker"
+        android:layout_width="152dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginRight="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.707"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/stickers" />
+
+    <!--<com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +110,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frag_container"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_navigation" />&ndash;&gt;-->
 
 
 
