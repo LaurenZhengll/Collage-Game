@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -56,10 +59,13 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
     BrushFragment brushFragment;
     CardView imageBtn, brushBtn;
     ImageView sticker;
-    ImageView backgroundImg;
+    ImageView backgroundImg, imageContent;
     ViewGroup viewGroup = null;
     FrameLayout fragContainer;
     Toolbar toolbar;
+    private ScaleGestureDetector SGD;
+    private Matrix matrix = new Matrix();
+    private float scale = 1f;
 
     private LayoutInflater inflater;
 
@@ -81,11 +87,16 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         fragContainer = findViewById(R.id.frag_container);
         inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         toolbar = findViewById(R.id.toolbar);
+        imageContent = findViewById(R.id.imageContent);
 
         ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+        /*StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());*/
+
+        SGD = new ScaleGestureDetector(this, new ScaleListener());
+
+
 
     }
 
@@ -156,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
     public void onImageItemClick(int position) {
 
         //View imageRootView = inflater.inflate(R.layout.view_add_image, null);
-        ImageView imageContent = findViewById(R.id.imageContent);
+        //ImageView imageContent = findViewById(R.id.imageContent);
         //final FrameLayout frmBorder = imageRootView.findViewById(R.id.frmBorder);
         //final ImageView icClose = imageRootView.findViewById(R.id.icClose);
 
@@ -247,6 +258,34 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.startActivity(intent);*/
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        SGD.onTouchEvent(event);
+        return true;
+    }
+
+    private class ScaleListener implements ScaleGestureDetector.OnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scale *= detector.getScaleFactor();
+            scale = Math.max(0.1f,Math.min(scale,5.0f));
+            matrix.setScale(scale,scale);
+            imageContent.setImageMatrix(matrix);
+            backgroundImg.setImageMatrix(matrix);
+            return true;
+        }
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            return false;
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+
+        }
     }
 
     /*public void save(View view){
