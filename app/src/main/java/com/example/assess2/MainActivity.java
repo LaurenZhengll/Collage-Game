@@ -260,6 +260,10 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     }
 
+    public void askCameraPermissions(){
+        
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         SGD.onTouchEvent(event);
