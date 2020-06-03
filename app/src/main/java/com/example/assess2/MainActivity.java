@@ -1,14 +1,17 @@
 package com.example.assess2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ViewUtils;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
     /* transfer image between fragments*/
     public static final int PERMISSION_PICK_IMAGE = 1000;
     public static final int PERMISSION_INSERT_IMAGE = 1001;
+
+
     static String EXTRA_BACKIMAGE;
 
     Bitmap originalBitmap, finalBitmap;
@@ -88,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         toolbar = findViewById(R.id.toolbar);
         imageContent = findViewById(R.id.imageContent);
+
+        /*set background image by getting the delivered intent*/
+        Intent backgroudImageIntent = getIntent();
+        Bitmap backgroudImage = (Bitmap) backgroudImageIntent.getExtras().get(CaptureActivity.EXTRA_BACKIMAGE);
+        backgroundImg.setImageBitmap(backgroudImage);
+
 
         ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
@@ -203,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     }
 
+    /* this method is to save view and store in photo gallery*/
     public void save(View view){
         /*Intent intent = new Intent(MainActivity.this, SaveActivity.class);
         Drawable source = backgroundImg.getDrawable();
@@ -260,9 +272,9 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     }
 
-    public void askCameraPermissions(){
-        
-    }
+
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
