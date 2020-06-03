@@ -54,7 +54,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class MainActivity extends AppCompatActivity implements ImageFragment.ImageFragmentListener {
 
     /* transfer image between fragments*/
-    public static final int PERMISSION_PICK_IMAGE = 1000;
+
     public static final int PERMISSION_INSERT_IMAGE = 1001;
 
 
@@ -94,12 +94,15 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         imageContent = findViewById(R.id.imageContent);
 
         /*set background image by getting the delivered intent*/
-        /*Intent backgroudImageIntent = getIntent();
-        Bitmap backgroudImage = (Bitmap) backgroudImageIntent.getExtras().get(CaptureActivity.EXTRA_BACKIMAGE);*/
 
-        /* set background image without losing quality by decoding file path */
-        Bitmap backgroudImage = BitmapFactory.decodeFile(getIntent().getStringExtra(CaptureActivity.EXTRA_BACKIMAGE));
-        backgroundImg.setImageBitmap(backgroudImage);
+
+        /* get image without losing quality from camera by decoding file path */
+        Bitmap backgroundImage = BitmapFactory.decodeFile(getIntent().getStringExtra(CaptureActivity.EXTRA_BACKIMAGE));
+        Uri bgImagUri = (Uri) getIntent().getExtras().get(CaptureActivity.EXTRA_BACKIMAGE); // get gallery image uri
+        if(backgroundImage!=null){
+            backgroundImg.setImageBitmap(backgroundImage); } // set background image from camera
+        else if(bgImagUri!=null){ backgroundImg.setImageURI(bgImagUri); } // set background image from gallery
+
 
 
         ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);

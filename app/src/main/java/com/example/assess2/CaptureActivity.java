@@ -27,8 +27,10 @@ import java.io.IOException;
 public class CaptureActivity extends AppCompatActivity {
     //private static final int CAMERA_PERMISSION_CODE = 101;
     private static final int CAMERA_REQUEST_CODE = 1;
-    static String EXTRA_BACKIMAGE;
+    private static final int IMAGE_PICK_CODE = 1000;
+    private static final int GALLERY_PERMISSION_CODE = 1001;
 
+    static String EXTRA_BACKIMAGE;
     private String currentPhotoPath = null;
 
     @Override
@@ -130,12 +132,54 @@ public class CaptureActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CAMERA_REQUEST_CODE){
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
             //Bitmap capturedImage = BitmapFactory.decodeFile(currentPhotoPath);
             Intent bgImageIntent = new Intent(this, MainActivity.class);
             bgImageIntent.putExtra(EXTRA_BACKIMAGE,currentPhotoPath);
             startActivity(bgImageIntent);
+        }
+        else if(requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK){
+            Intent bgImageIntent = new Intent(this, MainActivity.class);
+            bgImageIntent.putExtra(EXTRA_BACKIMAGE,data.getData());
+            startActivity(bgImageIntent);
 
         }
     }
+
+    /* this method if for checking whether there is already permission of gallery use */
+    public void onClickGallery(View view){
+        /* if permission has not been request, request permission, then call onRequestPermissionsResult method  */
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GALLERY_PERMISSION_CODE);
+        }
+        else{  /* if self already has permission, just pick image from gallery. */
+            pickImageFromGallery();
+        }
+    }
+
+
+    /* this method is to receive gallery request result */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == GALLERY_PERMISSION_CODE){ // request gallery permission
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ // if permission granted, then open camera
+                pickImageFromGallery();
+            }
+            else{ // if permission not granted, then show toast message
+                Toast.makeText(this,"Gallery permission denied",Toast.LENGTH_LONG);
+                //Toast galleryNotGranted = Toast.makeText(this,"Gallery permission denied",Toast.LENGTH_LONG);
+                //galleryNotGranted.show();
+            }
+        }
+    }
+
+    /* Start activity to pick image from gallery*/
+    private void pickImageFromGallery() {
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        pickIntent.setType("image/*");
+        startActivityForResult(pickIntent, IMAGE_PICK_CODE);
+    }
+
+
 }
