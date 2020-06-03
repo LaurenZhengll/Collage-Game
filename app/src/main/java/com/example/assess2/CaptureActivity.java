@@ -5,23 +5,31 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
-public class CaptureActivity extends AppCompatActivity {
-    public static final int CAMERA_PERMISSION_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;
+import java.io.File;
+import java.io.IOException;
 
+public class CaptureActivity extends AppCompatActivity {
+    //private static final int CAMERA_PERMISSION_CODE = 101;
+    private static final int CAMERA_REQUEST_CODE = 1;
     static String EXTRA_BACKIMAGE;
+
+    private String currentPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +37,19 @@ public class CaptureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_capture);
     }
 
-    /* this method if for checking whether there is already permission of camera use */
+   /* *//* this method if for checking whether there is already permission of camera use *//*
     public void checkCameraPermissions(View view){
-        /* if permission has not been request, request permission, then call onRequestPermissionsResult method  */
+        *//* if permission has not been request, request permission, then call onRequestPermissionsResult method  *//*
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
         }
-        else{  /* if self already has permission, just open camera. */
+        else{  *//* if self already has permission, just open camera. *//*
             openCamera();
         }
 
     }
 
-    /* this method is to receive camera request result */
+    *//* this method is to receive camera request result *//*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -57,14 +65,14 @@ public class CaptureActivity extends AppCompatActivity {
     }
 
 
-    /* the openCamera() method starts image capture activity */
+    *//* the openCamera() method starts image capture activity *//*
     private void openCamera() {
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intentCamera, CAMERA_REQUEST_CODE);
 
     }
 
-    /* this method receives captured image and passes it to main activity */
+    *//* this method receives captured image and passes it to main activity *//*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -74,6 +82,59 @@ public class CaptureActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(EXTRA_BACKIMAGE,backgroudImage);
             startActivity(intent);
+
+        }
+    }*/
+
+    /* the clickCamera(View view) method start another activity to capture photo and get path of the image file*/
+    public void clickCamera(View view){
+        /*String fileName = "capturedPhoto";
+        File storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imageFile = null;
+        try {
+            imageFile = File.createTempFile(fileName,".jpg",storageDirectory); //create a new image file in file directory
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentPhotoPath = imageFile.getAbsolutePath(); // get the absolute path of the new image file
+        Uri imageUri = FileProvider.getUriForFile(this,"com.example.assess2.fileprovider", imageFile);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri); // bind captured photo with image file
+        startActivityForResult(intent, CAMERA_REQUEST_CODE);*/
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(cameraIntent.resolveActivity(getPackageManager())!= null){
+            File imageFile = null;
+            try{
+                String fileName = "capturedPhoto";
+                File storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                imageFile = File.createTempFile(fileName,".jpg",storageDirectory); //create a new image file in file directory
+                currentPhotoPath = imageFile.getAbsolutePath(); // get the absolute path of the new image file
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if(imageFile!=null){
+                Uri imageUri = FileProvider.getUriForFile(this,"com.example.assess2.fileprovider", imageFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri); // bind captured photo with image file
+                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+            }
+        }
+
+    }
+
+
+    /* this method pass photo path to main activity*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST_CODE){
+            //Bitmap capturedImage = BitmapFactory.decodeFile(currentPhotoPath);
+            Intent bgImageIntent = new Intent(this, MainActivity.class);
+            bgImageIntent.putExtra(EXTRA_BACKIMAGE,currentPhotoPath);
+            startActivity(bgImageIntent);
 
         }
     }

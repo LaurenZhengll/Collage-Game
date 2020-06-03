@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
     public static final int PERMISSION_INSERT_IMAGE = 1001;
 
 
-    static String EXTRA_BACKIMAGE;
-
     Bitmap originalBitmap, finalBitmap;
     ImageFragment imageFragment;
     BrushFragment brushFragment;
@@ -95,8 +94,11 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         imageContent = findViewById(R.id.imageContent);
 
         /*set background image by getting the delivered intent*/
-        Intent backgroudImageIntent = getIntent();
-        Bitmap backgroudImage = (Bitmap) backgroudImageIntent.getExtras().get(CaptureActivity.EXTRA_BACKIMAGE);
+        /*Intent backgroudImageIntent = getIntent();
+        Bitmap backgroudImage = (Bitmap) backgroudImageIntent.getExtras().get(CaptureActivity.EXTRA_BACKIMAGE);*/
+
+        /* set background image without losing quality by decoding file path */
+        Bitmap backgroudImage = BitmapFactory.decodeFile(getIntent().getStringExtra(CaptureActivity.EXTRA_BACKIMAGE));
         backgroundImg.setImageBitmap(backgroudImage);
 
 
