@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ViewUtils;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -53,8 +54,6 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity implements ImageFragment.ImageFragmentListener {
 
-    /* transfer image between fragments*/
-
     public static final int PERMISSION_INSERT_IMAGE = 1001;
 
 
@@ -64,15 +63,19 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
     CardView imageBtn, brushBtn;
     ImageView sticker;
     ImageView backgroundImg, imageContent;
-    ViewGroup viewGroup = null;
-    FrameLayout fragContainer;
+    private ViewGroup mainLayout;
+    FrameLayout fragContainer, stickerContainer;
     Toolbar toolbar;
+
+
     private ScaleGestureDetector SGD;
     private Matrix matrix = new Matrix();
     private float scale = 1f;
 
-    private LayoutInflater inflater;
+    //private LayoutInflater inflater;
 
+    private int xDelta;
+    private int yDelta;
 
 
     @Override
@@ -89,19 +92,22 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         brushBtn = findViewById(R.id.btnBrush);
         backgroundImg = findViewById(R.id.imageView);
         fragContainer = findViewById(R.id.frag_container);
-        inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         toolbar = findViewById(R.id.toolbar);
         imageContent = findViewById(R.id.imageContent);
+        stickerContainer = findViewById(R.id.stickerContainer);
+        mainLayout = findViewById(R.id.mainLayout);
 
         /*set background image by getting the delivered intent*/
 
 
         /* get image without losing quality from camera by decoding file path */
         Bitmap backgroundImage = BitmapFactory.decodeFile(getIntent().getStringExtra(CaptureActivity.EXTRA_BACKIMAGE));
-        Uri bgImagUri = (Uri) getIntent().getExtras().get(CaptureActivity.EXTRA_BACKIMAGE); // get gallery image uri
         if(backgroundImage!=null){
             backgroundImg.setImageBitmap(backgroundImage); } // set background image from camera
-        else if(bgImagUri!=null){ backgroundImg.setImageURI(bgImagUri); } // set background image from gallery
+        else {
+            Uri bgImagUri = (Uri) getIntent().getExtras().get(CaptureActivity.EXTRA_BACKIMAGE); // get gallery image uri
+            backgroundImg.setImageURI(bgImagUri); } // set background image from gallery
 
 
 
@@ -112,9 +118,45 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
         SGD = new ScaleGestureDetector(this, new ScaleListener());
 
+        stickerContainer.setOnTouchListener(onImageDragListener());
+
 
 
     }
+
+    private View.OnTouchListener onImageDragListener() {
+        return new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int x = (int) event.getRawX();
+                final int y = (int) event.getRawY();
+
+                switch (event.getAction() & MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_DOWN:
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                        xDelta = x - lParams.leftMargin;
+                        yDelta = y - lParams.topMargin;
+                        break;
+                    /*case MotionEvent.ACTION_UP:
+                        Toast.makeText(MainActivity.this,"I'm here",Toast.LENGTH_LONG).show();
+                        break;*/
+                    case MotionEvent.ACTION_MOVE:
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                        layoutParams.leftMargin = x - xDelta;
+                        layoutParams.topMargin = y - yDelta;
+                        layoutParams.bottomMargin = 0;
+                        layoutParams.rightMargin = 0;
+                        v.setLayoutParams(layoutParams);
+                        break;
+                }
+
+                mainLayout.invalidate();
+                return true;
+            }
+        };
+    }
+
+
 
     /* change fragment by setting navigation item select listener*//*
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -226,10 +268,10 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         intent.putExtra(MainActivity.EXTRA_BACKIMAGE, backgroundImg.);
         startActivity(intent);*/
 
-        imageBtn.setVisibility(view.GONE);
-        brushBtn.setVisibility(view.GONE);
-        fragContainer.setVisibility(view.GONE);
-        toolbar.setVisibility(view.GONE);
+        imageBtn.setVisibility(view.INVISIBLE);
+        brushBtn.setVisibility(view.INVISIBLE);
+        fragContainer.setVisibility(view.INVISIBLE);
+        toolbar.setVisibility(view.INVISIBLE);
         view = findViewById(R.id.mainLayout);
         view.setSystemUiVisibility(view.SYSTEM_UI_FLAG_HIDE_NAVIGATION|view.SYSTEM_UI_FLAG_FULLSCREEN); // hide bottom navigation bar and top status bar
 

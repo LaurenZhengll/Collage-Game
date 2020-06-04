@@ -167,9 +167,7 @@ public class CaptureActivity extends AppCompatActivity {
                 pickImageFromGallery();
             }
             else{ // if permission not granted, then show toast message
-                Toast.makeText(this,"Gallery permission denied",Toast.LENGTH_LONG);
-                //Toast galleryNotGranted = Toast.makeText(this,"Gallery permission denied",Toast.LENGTH_LONG);
-                //galleryNotGranted.show();
+                Toast.makeText(this,"Gallery permission denied",Toast.LENGTH_LONG).show();
             }
         }
     }
