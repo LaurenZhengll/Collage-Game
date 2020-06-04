@@ -108,25 +108,81 @@
 
     <FrameLayout
         android:id="@+id/stickerContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
+    android:layout_marginLeft="20dp"
+    app:layout_constraintBottom_toBottomOf="@id/imageView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/imageView">
+
+    <ImageView
+        android:id="@+id/icClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|start"
+        android:elevation="1dp"
+        android:onClick="clickCloseIcon"
+        android:src="@drawable/ic_close_white_24dp"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/imageContent"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+        android:src="@drawable/stickers" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/stickerContainer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintBottom_toBottomOf="@id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imageView">
-
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="40dp">
         <ImageView
-            android:id="@+id/icClose"
+            android:id="@+id/icClose2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="top|start"
             android:elevation="1dp"
-            android:src="@drawable/ic_close_white_24dp" />
+            android:onClick="clickCloseIcon2"
+            android:src="@drawable/ic_close_white_24dp"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/imageContent2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/stickers" />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/stickerContainer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="60dp">
 
         <ImageView
-            android:id="@+id/imageContent"
+            android:id="@+id/icClose3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="top|start"
+            android:elevation="1dp"
+            android:onClick="clickCloseIcon3"
+            android:src="@drawable/ic_close_white_24dp"
+            android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/imageContent3"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
@@ -137,15 +193,17 @@
             android:src="@drawable/stickers" />
     </FrameLayout>
 
-   <!-- <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
-        android:layout_marginLeft="304dp"
-        android:layout_marginTop="388dp"
-        android:text="Save"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!-- <Button
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginStart="304dp"
+         android:layout_marginLeft="304dp"
+         android:layout_marginTop="388dp"
+         android:text="Save"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />-->
 
     <!--<ImageView
         android:id="@+id/sticker"

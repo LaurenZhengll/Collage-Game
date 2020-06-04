@@ -11,7 +11,7 @@ public class ImageAdapter extends BaseAdapter {
     private Context context;
 
     public int[] imageArray = {
-            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar};
+            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar,R.drawable.santahat};
 
     public ImageAdapter(Context context) {
         this.context= context;

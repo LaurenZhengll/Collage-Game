@@ -56,23 +56,21 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     public static final int PERMISSION_INSERT_IMAGE = 1001;
 
-
-    Bitmap originalBitmap, finalBitmap;
     ImageFragment imageFragment;
     BrushFragment brushFragment;
     CardView imageBtn, brushBtn;
-    ImageView sticker;
-    ImageView backgroundImg, imageContent;
-    private ViewGroup mainLayout;
-    FrameLayout fragContainer, stickerContainer;
+    ImageView backgroundImg, imageContent, imageContent2, imageContent3,closeIcon, closeIcon2, closeIcon3;
+    ViewGroup mainLayout, imageContainer, stickerContain,imageContainer2,imageContainer3;
+    FrameLayout fragContainer;
     Toolbar toolbar;
+
 
 
     private ScaleGestureDetector SGD;
     private Matrix matrix = new Matrix();
     private float scale = 1f;
 
-    //private LayoutInflater inflater;
+    private LayoutInflater inflater;
 
     private int xDelta;
     private int yDelta;
@@ -92,13 +90,24 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         brushBtn = findViewById(R.id.btnBrush);
         backgroundImg = findViewById(R.id.imageView);
         fragContainer = findViewById(R.id.frag_container);
-        //inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         toolbar = findViewById(R.id.toolbar);
-        imageContent = findViewById(R.id.imageContent);
-        stickerContainer = findViewById(R.id.stickerContainer);
         mainLayout = findViewById(R.id.mainLayout);
 
-        /*set background image by getting the delivered intent*/
+        /*stickerContain = findViewById(R.id.stickerContain);
+        closeIcon = findViewById(R.id.icClosee);
+        stickerContent = findViewById(R.id.stickerContent);*/
+
+        imageContainer = findViewById(R.id.stickerContainer);
+        imageContent = findViewById(R.id.imageContent);
+        closeIcon = findViewById(R.id.icClose);
+        imageContainer2 = findViewById(R.id.stickerContainer2);
+        imageContent2 = findViewById(R.id.imageContent2);
+        closeIcon2 = findViewById(R.id.icClose2);
+        imageContainer3 = findViewById(R.id.stickerContainer3);
+        imageContent3 = findViewById(R.id.imageContent3);
+        closeIcon3 = findViewById(R.id.icClose3);
+
 
 
         /* get image without losing quality from camera by decoding file path */
@@ -118,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
         SGD = new ScaleGestureDetector(this, new ScaleListener());
 
-        stickerContainer.setOnTouchListener(onImageDragListener());
+
 
 
 
@@ -193,9 +202,6 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         //addImageToPicture();
     }
 
-    private void addImageToPicture() {
-
-    }
 
 
     public void onClickBrushBtn(View view){ // click brush button
@@ -223,20 +229,39 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     @Override
     public void onImageItemClick(int position) {
-
-        //View imageRootView = inflater.inflate(R.layout.view_add_image, null);
-        //ImageView imageContent = findViewById(R.id.imageContent);
         //final FrameLayout frmBorder = imageRootView.findViewById(R.id.frmBorder);
         //final ImageView icClose = imageRootView.findViewById(R.id.icClose);
 
-        /* display sticker */
+        // display sticker
         if (position == 0) {
             imageContent.getDrawable().setLevel(1);
+            closeIcon.setVisibility(View.VISIBLE);
+            imageContainer.setVisibility(View.VISIBLE);
+            imageContainer.setOnTouchListener(onImageDragListener()); // listen sticker drag event
         } else if (position == 1) {
-            imageContent.getDrawable().setLevel(2);
+            imageContent2.getDrawable().setLevel(2);
+            closeIcon2.setVisibility(View.VISIBLE);
+            imageContainer2.setVisibility(View.VISIBLE);
+            imageContainer2.setOnTouchListener(onImageDragListener()); // listen sticker drag event
         } else {
-            imageContent.getDrawable().setLevel(3);
+            imageContent3.getDrawable().setLevel(3);
+            closeIcon3.setVisibility(View.VISIBLE);
+            imageContainer3.setVisibility(View.VISIBLE);
+            imageContainer3.setOnTouchListener(onImageDragListener()); // listen sticker drag event
         }
+
+
+        /*View imageRootView = inflater.inflate(R.layout.view_add_image, mainLayout);
+        ImageView stickerContent = imageRootView.findViewById(R.id.stickerContent);
+        *//* display sticker *//*
+        if (position == 0) {
+            stickerContent.getDrawable().setLevel(1);
+        } else if (position == 1) {
+            stickerContent.getDrawable().setLevel(2);
+        } else {
+            stickerContent.getDrawable().setLevel(3);
+        }
+        imageRootView.setOnTouchListener(onImageDragListener()); // listen sticker drag event*/
 
 
       /*  MultiTouchListener multiTouchListener = getMultiTouchListener();
@@ -261,6 +286,16 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
 
     }
 
+    public void clickCloseIcon(View view){
+        imageContainer.setVisibility(View.INVISIBLE);
+    }
+    public void clickCloseIcon2(View view){
+        imageContainer2.setVisibility(View.INVISIBLE);
+    }
+    public void clickCloseIcon3(View view){
+        imageContainer3.setVisibility(View.INVISIBLE);
+    }
+
     /* this method is to save view and store in photo gallery*/
     public void save(View view){
         /*Intent intent = new Intent(MainActivity.this, SaveActivity.class);
@@ -272,6 +307,9 @@ public class MainActivity extends AppCompatActivity implements ImageFragment.Ima
         brushBtn.setVisibility(view.INVISIBLE);
         fragContainer.setVisibility(view.INVISIBLE);
         toolbar.setVisibility(view.INVISIBLE);
+        closeIcon.setVisibility(view.INVISIBLE);
+        closeIcon2.setVisibility(view.INVISIBLE);
+        closeIcon3.setVisibility(view.INVISIBLE);
         view = findViewById(R.id.mainLayout);
         view.setSystemUiVisibility(view.SYSTEM_UI_FLAG_HIDE_NAVIGATION|view.SYSTEM_UI_FLAG_FULLSCREEN); // hide bottom navigation bar and top status bar
 

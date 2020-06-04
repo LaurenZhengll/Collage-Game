@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/stickerContain">
 
     <ImageView
-        android:id="@+id/icClose"
+        android:id="@+id/icClosee"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="top|start"
@@ -13,7 +14,7 @@
 
 
     <ImageView
-        android:id="@+id/imageContent"
+        android:id="@+id/stickerContent"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
@@ -23,4 +24,4 @@
         android:scaleType="fitCenter"
         android:src="@drawable/stickers" />
 
-</FrameLayout>
+</RelativeLayout>
