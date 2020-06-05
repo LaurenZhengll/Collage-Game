@@ -14,17 +14,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/shareBtn"
+            android:layout_alignParentRight="true"
             android:background="@color/transparent"
             android:onClick="save"
             android:text="Save" />
-        <Button
+        <!--<Button
             android:id="@+id/shareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="Share"
-            android:background="@color/transparent"/>
+            android:background="@color/transparent"/>-->
 
     </RelativeLayout>
 

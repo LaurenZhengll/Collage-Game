@@ -10,6 +10,7 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
     private Context context;
 
+    /* the image array used for grid view */
     public int[] imageArray = {
             R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar,R.drawable.santahat};
 
@@ -32,12 +33,13 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
+    /* set image resource and layout params*/
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(imageArray[position]);
-        imageView.setScaleType(ImageView.ScaleType.FIT_START);
-        imageView.setLayoutParams(new GridLayout.LayoutParams());  //width=250, height=250
+        imageView.setScaleType(ImageView.ScaleType.FIT_START); // use fit start to scale image
+        imageView.setLayoutParams(new GridLayout.LayoutParams());
         return imageView;
     }
 }

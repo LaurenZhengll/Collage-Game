@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CaptureActivity extends AppCompatActivity {
-    //private static final int CAMERA_PERMISSION_CODE = 101;
+
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int GALLERY_PERMISSION_CODE = 1001;
@@ -90,20 +90,6 @@ public class CaptureActivity extends AppCompatActivity {
 
     /* the clickCamera(View view) method start another activity to capture photo and get path of the image file*/
     public void clickCamera(View view){
-        /*String fileName = "capturedPhoto";
-        File storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File imageFile = null;
-        try {
-            imageFile = File.createTempFile(fileName,".jpg",storageDirectory); //create a new image file in file directory
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        currentPhotoPath = imageFile.getAbsolutePath(); // get the absolute path of the new image file
-        Uri imageUri = FileProvider.getUriForFile(this,"com.example.assess2.fileprovider", imageFile);
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri); // bind captured photo with image file
-        startActivityForResult(intent, CAMERA_REQUEST_CODE);*/
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(cameraIntent.resolveActivity(getPackageManager())!= null){
