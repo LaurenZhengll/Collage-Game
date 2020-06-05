@@ -12,7 +12,7 @@ public class ImageAdapter extends BaseAdapter {
 
     /* the image array used for grid view */
     public int[] imageArray = {
-            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar,R.drawable.santahat};
+            R.drawable.elephant, R.drawable.smile, R.drawable.vintagecar};
 
     public ImageAdapter(Context context) {
         this.context= context;
